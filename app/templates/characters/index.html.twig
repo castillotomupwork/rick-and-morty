@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rick & Morty Characters{% endblock %}
+
+{% block body %}
+    <main class="max-w-7xl mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6 text-center">Characters</h1>
+
+        <section 
+            data-controller="characters"
+            data-characters-endpoint-value="{{ path('characters_data') }}"
+        >
+            <div data-characters-target="message" class="hidden"></div>
+
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8" 
+                data-characters-target="characters"
+            ></div>
+
+            <div class="grid grid-cols-3 gap-3">
+                <div 
+                    data-controller="filter" 
+                    data-filter-endpoint-value="{{ path('dimensions_data') }}"
+                >
+                    <button
+                        class="px-4 py-2 bg-gray-300 rounded 
+                            cursor-pointer disabled:cursor-default
+                            drop-shadow-lg disabled:drop-shadow-sm
+                            hover:bg-gray-600 disabled:bg-gray-300 disabled:hover:bg-gray-300
+                            hover:text-white disabled:text-gray-400 disabled:hover:text-gray-400"
+                        data-action="click->filter#open"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-current">
+                            <path d="M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
+                        </svg>
+                    </button>
+
+                    {% include 'characters/_filter.html.twig' %}
+                </div>
+                <div>
+                    <nav class="characters-controls flex items-center justify-center gap-2">
+                        <button
+                            class="px-4 py-2 bg-gray-300 rounded 
+                                cursor-pointer disabled:cursor-default
+                                drop-shadow-lg disabled:drop-shadow-sm
+                                hover:bg-gray-600 disabled:bg-gray-300 disabled:hover:bg-gray-300
+                                hover:text-white disabled:text-gray-400 disabled:hover:text-gray-400"
+                            data-action="click->characters#paginate"
+                            data-type="first"
+                            data-characters-target="firstButton"
+                            disabled
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-current">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                            </svg>
+                        </button>
+
+                        <button
+                            class="px-4 py-2 bg-gray-300 rounded 
+                                cursor-pointer disabled:cursor-default
+                                drop-shadow-lg disabled:drop-shadow-sm
+                                hover:bg-gray-600 disabled:bg-gray-300 disabled:hover:bg-gray-300
+                                hover:text-white disabled:text-gray-400 disabled:hover:text-gray-400"
+                            data-action="click->characters#paginate"
+                            data-type="prev"
+                            data-characters-target="prevButton"
+                            disabled
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-current">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                            </svg>
+                        </button>
+
+                        <span
+                            class="px-4 py-2 text-sm font-medium"
+                            data-characters-target="pageLabel"
+                        ></span>
+
+                        <button
+                            class="px-4 py-2 bg-gray-300 rounded 
+                                cursor-pointer disabled:cursor-default
+                                drop-shadow-lg disabled:drop-shadow-sm
+                                hover:bg-gray-600 disabled:bg-gray-300 disabled:hover:bg-gray-300
+                                hover:text-white disabled:text-gray-400 disabled:hover:text-gray-400"
+                            data-action="click->characters#paginate"
+                            data-type="next"
+                            data-characters-target="nextButton"
+                            disabled
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-current">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
+
+                        <button
+                            class="px-4 py-2 bg-gray-300 rounded 
+                                cursor-pointer disabled:cursor-default
+                                drop-shadow-lg disabled:drop-shadow-sm
+                                hover:bg-gray-600 disabled:bg-gray-300 disabled:hover:bg-gray-300
+                                hover:text-white disabled:text-gray-400 disabled:hover:text-gray-400"
+                            data-action="click->characters#paginate"
+                            data-type="last"
+                            data-characters-target="lastButton"
+                            disabled
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-current">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
+                    </nav>
+                </div>
+                <div></div>
+            </div>
+            
+        </section>
+    </main>
+{% endblock %}
