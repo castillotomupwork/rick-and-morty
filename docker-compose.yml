@@ -1,0 +1,43 @@
+services:
+  app:
+    container_name: app
+    image: tomascastillo/apache-php-symfony-7:2.3
+    tty: true
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      local_network:
+        ipv4_address: 172.30.0.2
+    volumes:
+      - "./server/ca-certificates:/usr/local/share/ca-certificates"
+      - "./server/conf-enabled:/etc/apache2/conf-enabled"
+      - "./server/sites-enabled:/etc/apache2/sites-enabled"
+      - "./:/var/www/html"
+    working_dir: /var/www/html/app
+    command: ['apachectl', '-D', 'FOREGROUND']
+  db:
+    image: mysql:8.0
+    tty: true
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_DATABASE: rick_morty
+      MYSQL_USER: tom
+      MYSQL_PASSWORD: castillo
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      local_network:
+        ipv4_address: 172.30.0.3
+    volumes:
+      - "./db_data:/var/lib/mysql"
+      - "./db_logs:/var/log/mysql"
+networks:
+  local_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/28
