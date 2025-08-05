@@ -79,7 +79,7 @@ Edit environment file
 vi .env.dev
 ```
 Change DATA_PROVIDER_TYPE to either db (for Database) or api (for API)
-If you are going to use Database, skip the next step and jump to 10.
+If you are going to use API, skip the next step and jump to 10.
 
 ### 7. Create Database
 
