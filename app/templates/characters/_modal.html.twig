@@ -1,0 +1,72 @@
+<div
+    class="fixed inset-0 z-50 items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 ease-in-out hidden"
+    data-character-modal-target="modal"
+    data-action="click->character-modal#overlayClose"
+>
+    <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-xl relative">
+        <button
+            class="absolute top-2 right-2 text-gray-400 hover:text-gray-800"
+            data-action="click->character-modal#close"
+        >
+            ✕
+        </button>
+
+        <div class="flex gap-4 items-stretch">
+            <div class="flex-1 flex flex-col">
+                <img
+                    data-character-modal-target="image"
+                    class="w-88 h-88 rounded-t-md object-cover shadow-md"
+                />
+                <h2
+                    data-character-modal-target="name"
+                    class="text-xl font-semibold mb-4 mt-auto
+                        border border-gray-300 rounded-b-md p-2 text-center bg-white shadow-md"
+                ></h2>
+            </div>
+
+            <div class="flex-1 h-full">
+                <div class="grid h-full grid-cols-[40%_60%] gap-y-1 text-sm text-gray-700">
+                    <div class="font-medium text-left pr-2
+                         odd:bg-gray-100 even:bg-gray-200 p-2 rounded-tl-md">Species:</div>
+                    <div data-character-modal-target="species" 
+                        class="text-left odd:bg-gray-100 even:bg-gray-200 p-2 rounded-tr-md"></div>
+
+                    <div class="font-medium text-left pr-2
+                         odd:bg-gray-100 even:bg-gray-200 p-2">Gender:</div>
+                    <div data-character-modal-target="gender" 
+                        class="text-left odd:bg-gray-100 even:bg-gray-200 p-2"></div>
+
+                    <div class="font-medium text-left pr-2 
+                        odd:bg-gray-100 even:bg-gray-200 p-2">Status:</div>
+                    <div data-character-modal-target="status" 
+                        class="text-left odd:bg-gray-100 even:bg-gray-200 p-2"></div>
+
+                    <div class="font-medium text-left pr-2 
+                        odd:bg-gray-100 even:bg-gray-200 p-2">Type:</div>
+                    <div data-character-modal-target="type" 
+                        class="text-left odd:bg-gray-100 even:bg-gray-200 p-2"></div>
+
+                    <div class="font-medium text-left pr-2 
+                        odd:bg-gray-100 even:bg-gray-200 p-2 min-h-[56px]">Origin:</div>
+                    <div data-character-modal-target="origin" 
+                        class="text-left odd:bg-gray-100 even:bg-gray-200 p-2 min-h-[56px]"></div>
+
+                    <div class="font-medium text-left pr-2 
+                        odd:bg-gray-100 even:bg-gray-200 p-2 min-h-[56px]">Dimension:</div>
+                    <div data-character-modal-target="dimension" 
+                        class="text-left odd:bg-gray-100 even:bg-gray-200 p-2 min-h-[56px]"></div>
+
+                    <div class="font-medium text-left pr-2 
+                        odd:bg-gray-100 even:bg-gray-200 p-2 min-h-[56px]">Last Location:</div>
+                    <div data-character-modal-target="location" 
+                        class="text-left odd:bg-gray-100 even:bg-gray-200 p-2 min-h-[56px]"></div>
+
+                    <div class="font-medium text-left pr-2 
+                        odd:bg-gray-100 even:bg-gray-200 p-2 rounded-bl-md min-h-[56px]">Last Episode:</div>
+                    <div data-character-modal-target="episode" 
+                        class="text-left odd:bg-gray-100 even:bg-gray-200 p-2 rounded-br-md min-h-[56px]"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

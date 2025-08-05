@@ -10,17 +10,34 @@
             data-controller="characters"
             data-characters-endpoint-value="{{ path('characters_data') }}"
         >
+            <div 
+                data-characters-target="loading" 
+                class="fixed inset-0 bg-gray-500 z-50 flex items-center justify-center 
+                    opacity-0 pointer-events-none transition-fade"
+            >
+                <div 
+                    class="loader border-4 border-white border-t-transparent rounded-full 
+                        w-12 h-12 animate-spin"
+                ></div>
+            </div>
+            
             <div data-characters-target="message" class="hidden"></div>
 
-            <div
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8" 
-                data-characters-target="characters"
-            ></div>
+            <div data-controller="character-modal">
+                {% include 'characters/_modal.html.twig' %}
+                
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8" 
+                    data-characters-target="characters"
+                ></div>
+            </div>
 
             <div class="grid grid-cols-3 gap-3">
                 <div 
                     data-controller="filter" 
-                    data-filter-endpoint-value="{{ path('dimensions_data') }}"
+                    data-filter-dimensions-endpoint-value="{{ path('dimensions_data') }}"
+                    data-filter-locations-endpoint-value="{{ path('locations_data') }}"
+                    data-filter-episodes-endpoint-value="{{ path('episodes_data') }}"
                 >
                     <button
                         class="px-4 py-2 bg-gray-300 rounded 
@@ -37,6 +54,7 @@
 
                     {% include 'characters/_filter.html.twig' %}
                 </div>
+                
                 <div>
                     <nav class="characters-controls flex items-center justify-center gap-2">
                         <button
@@ -72,7 +90,8 @@
                         </button>
 
                         <span
-                            class="px-4 py-2 text-sm font-medium"
+                            class="px-4 py-2 text-sm font-medium
+                                min-w-20"
                             data-characters-target="pageLabel"
                         ></span>
 
@@ -109,6 +128,7 @@
                         </button>
                     </nav>
                 </div>
+
                 <div></div>
             </div>
             

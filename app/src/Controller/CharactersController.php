@@ -2,85 +2,59 @@
 
 namespace App\Controller;
 
-use Psr\Log\LoggerInterface;
+use App\Enum\Gender;
+use App\Enum\Status;
+use App\Helper\ParseHelper;
+use App\Service\DataService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-
 
 final class CharactersController extends AbstractController
 {
-    public function __construct(private readonly HttpClientInterface $client)
+    /**
+     * Class constructor to initialize data service dependency.
+     *
+     * @param DataService $dataService
+     */
+    public function __construct(private DataService $dataService) 
     {
 
     }
 
+    /**
+     * Displays the character index page.
+     *
+     * @param ParameterBagInterface $parameterBag
+     * @return Response
+     */
     #[Route('/', name: 'characters_index')]
-    public function index(LoggerInterface $logger): Response
+    public function index(ParameterBagInterface $parameterBag): Response
     {
-        $apiUrl = $this->getParameter('api_url') . "/character";
-
-        try {
-            $response = $this->client->request('GET', $apiUrl);
-
-            $data = $response->toArray();
-
-            $characters = [];
-            foreach ($data as $row) {
-                $characters[] = [
-                    'id' => '',
-                    'name' => '',
-                    'status' => '',
-                    'species' => '',
-                    'type' => '',
-                    'gender' => '',
-                    'id' => '',
-                    'id' => '',
-                    'id' => '',
-                ];
-            }
-        } catch (\Exception $e) {
-            $logger->error($e->getMessage());
-        }
-
-        return $this->render('characters/index.html.twig');
+        return $this->render('characters/index.html.twig', [
+            'statuses' => Status::cases(),
+            'genders' => Gender::cases(),
+            'data_provider_type' => $parameterBag->get('data_provider_type'),
+        ]);
     }
 
+    /**
+     * Returns a list of characters in JSON format.
+     *
+     * @param Request $request
+     * @param ParseHelper $parseHelper
+     * @param ParameterBagInterface $parameterBag
+     * @return JsonResponse
+     */
     #[Route('/characters', name: 'characters_data')]
     public function getCharacters(
         Request $request, 
-        LoggerInterface $logger
+        ParseHelper $parseHelper,
+        ParameterBagInterface $parameterBag,
     ): JsonResponse {
-        $page = $request->query->getInt('page', 1);
-
-        $allowedFilters = [
-            'status' => ['alive', 'dead', 'unknown'],
-            'gender' => ['female', 'male', 'genderless', 'unknown'],
-            'species' => null,
-            // add more filters as needed
-        ];
-
-        $queryParams = ['page' => $page];
-
-        foreach ($allowedFilters as $filter => $validOptions) {
-            $value = $request->query->get($filter);
-
-            if ($value !== null && $value !== '') {
-                if (is_array($validOptions)) {
-                    if (in_array(strtolower($value), $validOptions, true)) {
-                        $queryParams[$filter] = strtolower($value);
-                    }
-                } else {
-                    $queryParams[$filter] = $value;
-                }
-            }
-        }
-
-        $apiUrl = $this->getParameter('api_url') . "/character?" . http_build_query($queryParams);
-
         $pagination = [
             'prev' => 0, 
             'next' => 0,
@@ -93,71 +67,52 @@ final class CharactersController extends AbstractController
             'disableLast' => true,
         ];
 
-        try {
-            $response = $this->client->request('GET', $apiUrl);
+        if ($parameterBag->get('data_provider_type') == 'db') {
+            $param = $parseHelper->requestToInteger(
+                $request->query->all(), 
+                ['dimension', 'location', 'episode']
+            );
+        } else {
+            $param = $request->query->all();
+        }
 
-            $data = $response->toArray();
+        $page = $param['page'];
 
-            $pageTotal = $data['info']['pages'];
+        $data = $this->dataService->characters($param);
 
-            if ($page <= $pageTotal && $page > 1) {
-                $pagination['prev'] = $page - 1;
-                $pagination['first'] = 1;
-                $pagination['disablePrev'] = false;
-                $pagination['disableFirst'] = false;
-            }
+        $page = $data['page'] ?? 1;
+        $pageTotal = $data['pageTotal'] ?? 0;
+        $characters = $data['characters'] ?? [];
+        $error = $data['error'] ?? null;
 
-            if ($pageTotal > 1 && $page != $pageTotal) {
-                $pagination['next'] = $page + 1;
-                $pagination['last'] = $pageTotal;
-                $pagination['disableNext'] = false;
-                $pagination['disableLast'] = false;
-            }
+        if ($page <= $pageTotal && $page > 1) {
+            $pagination['prev'] = $page - 1;
+            $pagination['first'] = 1;
+            $pagination['disablePrev'] = false;
+            $pagination['disableFirst'] = false;
+        }
 
-            if ($pageTotal > 0) {
-                $pagination['pageLabel'] = $page . " of " . $pageTotal;
-            }
+        if ($pageTotal > 1 && $page != $pageTotal) {
+            $pagination['next'] = $page + 1;
+            $pagination['last'] = $pageTotal;
+            $pagination['disableNext'] = false;
+            $pagination['disableLast'] = false;
+        }
 
+        if ($pageTotal > 0) {
+            $pagination['pageLabel'] = $page . " of " . $pageTotal;
+        }
+        
+        if ($error) {
             return $this->json([
-                'characters' => $data['results'],
+                'error' => $error,
                 'pagination' => $pagination,
             ]);
-
-        } catch (\Exception $e) {
-
-            $logger->error($e->getMessage());
-
-            return $this->json([
-                'characters' => [],
-                'pagination' => $pagination,
-                'error' => 'No characters found.',
-            ]);
         }
-    }
 
-    #[Route('/dimensions', name: 'dimensions_data')]
-    public function getDimensions(): JsonResponse
-    {
-        $apiUrl = $this->getParameter('api_url') . "/location";
-
-        try {
-            $response = $this->client->request('GET', $apiUrl);
-
-            $data = $response->toArray();
-
-            $dimensions = [];
-            foreach ($data['results'] as $location) {
-                if (!in_array($location['dimension'], $dimensions)) {
-                    $dimensions[] = $location['dimension'];
-                }
-            }
-
-            sort($dimensions);
-
-            return $this->json($dimensions);
-
-        } catch (\Exception $e) {
-            return $this->json([]);
-        }
+        return $this->json([
+            'characters' => $characters,
+            'pagination' => $pagination,
+        ]);
     }
 }

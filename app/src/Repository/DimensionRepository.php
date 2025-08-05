@@ -11,6 +11,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DimensionRepository extends ServiceEntityRepository
 {
+    /**
+     * Initializes the repository with the Dimension entity class.
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Dimension::class);

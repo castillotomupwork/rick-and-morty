@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     api_url: '%env(API_URL)%'
+    data_provider_type: '%env(DATA_PROVIDER_TYPE)%'
 
 services:
     # default configuration for services in *this* file
@@ -30,3 +31,11 @@ services:
     App\DataFixtures\CharacterFixtures:
         arguments:
             $apiUrl: '%env(API_URL)%'
+
+    App\Service\DataProviderInterface:
+        factory: ['@App\Service\DataProviderFactory', 'select']
+        arguments: ['%data_provider_type%']
+
+    App\Service\ApiDataProvider:
+        arguments:
+            $apiUrl: '%api_url%'

@@ -9,6 +9,11 @@ enum Gender: string
     case GENDERLESS = 'genderless';
     case UNKNOWN = 'unknown';
 
+    /**
+     * Returns a human-readable label for the gender value.
+     *
+     * @return string
+     */
     public function label(): string
     {
         return match($this) {
@@ -19,6 +24,13 @@ enum Gender: string
         };
     }
 
+    /**
+     * Safely converts a string to a Gender enum value.
+     * Comparison is case-insensitive. Returns null if no match is found.
+     *
+     * @param string $value
+     * @return Gender|null
+     */
     public static function safeFrom(string $value): ?Gender
     {
         foreach (Gender::cases() as $case) {

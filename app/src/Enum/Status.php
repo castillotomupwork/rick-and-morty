@@ -8,6 +8,11 @@ enum Status: string
     case DEAD = 'dead';
     case UNKNOWN = 'unknown';
 
+    /**
+     * Returns a human-readable label for the status value.
+     *
+     * @return string
+     */
     public function label(): string
     {
         return match($this) {
@@ -17,6 +22,13 @@ enum Status: string
         };
     }
 
+    /**
+     * Safely converts a string to a Status enum value.
+     * Comparison is case-insensitive. Returns null if no match is found.
+     *
+     * @param string $value
+     * @return Status|null
+     */
     public static function safeFrom(string $value): ?Status
     {
         foreach (Status::cases() as $case) {

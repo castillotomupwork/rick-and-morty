@@ -11,6 +11,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EpisodeRepository extends ServiceEntityRepository
 {
+    /**
+     * Initializes the repository with the Episode entity class.
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Episode::class);

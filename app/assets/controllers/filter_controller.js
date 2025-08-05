@@ -5,18 +5,45 @@ export default class extends Controller {
         'modal',
         'message',
         'dimension',
+        'location',
+        'episode',
+        'container',
+        'button',
     ];
 
     static values = {
-        endpoint: String,
+        dimensionsEndpoint: String,
+        locationsEndpoint: String,
+        episodesEndpoint: String,
     };
+
+    connect() {
+        this.loadDimensionOptions();
+        this.loadLocationsOptions();
+        this.loadEpisodesOptions();
+
+        this.adjustLayout();
+        window.addEventListener('resize', this.adjustLayout.bind(this));
+    }
+
+    disconnect() {
+        window.removeEventListener('resize', this.adjustLayout.bind(this));
+    }
+
+    overlayClose(event) {
+        if (event.target === this.modalTarget) {
+            this.close();
+        }
+    }
 
     open() {
         this.modalTarget.classList.add('flex');
         this.modalTarget.classList.remove('hidden');
+        this.modalTarget.classList.remove('opacity-0');
     }
 
     close() {
+        this.modalTarget.classList.add('opacity-0');
         this.modalTarget.classList.add('hidden');
         this.modalTarget.classList.remove('flex');
     }
@@ -36,25 +63,75 @@ export default class extends Controller {
     }
 
     async loadDimensionOptions() {
-        const url = this.endpointValue;
+        const url = this.dimensionsEndpointValue;
 
         try {
             const response = await fetch(url);
-            const data = response.json();
+            const data = await response.json();
 
-            const dimensions = data.dimensions || [];
+            const dimensions = data || [];
 
             this.dimensionTarget.innerHTML = '<option value="">All</option>';
 
             dimensions.forEach(dimension => {
                 const option = document.createElement('option');
-                option.value = dimension;
-                option.textContent = dimension;
+                option.value = dimension.id;
+                option.textContent = dimension.name;
                 this.dimensionTarget.appendChild(option);
             });
 
         } catch (error) {
-            this.showMessage('Failed to load data.', 'error');
+            this.showMessage('Failed to load dimensions.', 'error');
+
+            console.error(error);
+        }
+    }
+
+    async loadLocationsOptions() {
+        const url = this.locationsEndpointValue;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            const locations = data || [];
+
+            this.locationTarget.innerHTML = '<option value="">All</option>';
+
+            locations.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location.id;
+                option.textContent = location.name;
+                this.locationTarget.appendChild(option);
+            });
+
+        } catch (error) {
+            this.showMessage('Failed to load locations.', 'error');
+
+            console.error(error);
+        }
+    }
+
+    async loadEpisodesOptions() {
+        const url = this.episodesEndpointValue;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            const episodes = data || [];
+
+            this.episodeTarget.innerHTML = '<option value="">All</option>';
+
+            episodes.forEach(episode => {
+                const option = document.createElement('option');
+                option.value = episode.id;
+                option.textContent = episode.name;
+                this.episodeTarget.appendChild(option);
+            });
+
+        } catch (error) {
+            this.showMessage('Failed to load episodes.', 'error');
 
             console.error(error);
         }
@@ -82,5 +159,42 @@ export default class extends Controller {
                 this.messageTarget.classList.add('hidden');
             }, 500);
         }, timeout);
+    }
+
+    adjustLayout() {
+        const isSmallHeight = window.innerHeight <= 620;
+
+        if (!isSmallHeight) {
+            this.resetLayout();
+            return;
+        }
+
+        this.containerTarget.classList.add('grid', 'grid-cols-2');
+
+        const children = Array.from(this.containerTarget.children).filter(
+            (child) => child.getAttribute('data-filter-target') !== 'button'
+        );
+
+        children.forEach((child, index) => {
+            child.classList.remove('pr-1', 'pl-1');
+
+            if (index % 2 === 0) {
+                child.classList.add('pr-1');
+            } else {
+                child.classList.add('pl-1');
+            }
+        });
+
+        this.buttonTarget.classList.add('col-span-2');
+    }
+
+    resetLayout() {
+        this.containerTarget.classList.remove('grid', 'grid-cols-2');
+
+        const children = Array.from(this.containerTarget.children);
+
+        children.forEach(child => child.classList.remove('pr-1', 'pl-1'));
+
+        this.buttonTarget.classList.remove('col-span-2');
     }
 }

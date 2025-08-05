@@ -3,3 +3,7 @@
 body {
     background-color: lightgray;
 }
+
+.transition-fade {
+    transition: opacity 0.5s ease;
+}

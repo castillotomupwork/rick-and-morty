@@ -13,19 +13,40 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class EpisodeFixtures extends Fixture implements FixtureGroupInterface
 {
+    /**
+     * Constructor for episode fixture loading.
+     * Initializes required services or helpers for populating episode data.
+     *
+     * @param HttpClientInterface $client
+     * @param string $apiUrl
+     * @param LoggerInterface $logger
+     * @param CharacterRepository $characterRepository
+     */
     public function __construct(
         private HttpClientInterface $client,
         private string $apiUrl,
         private LoggerInterface $logger,
         private CharacterRepository $characterRepository
     ) {
+        $this->apiUrl = rtrim($apiUrl, '/');
     }
 
+    /**
+     * Returns the groups this fixture belongs to.
+     *
+     * @return array
+     */
     public static function getGroups(): array
     {
         return ['group3'];
     }
 
+    /**
+     * Loads episode fixture data into the database.
+     *
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         $page = 1;
@@ -33,7 +54,10 @@ class EpisodeFixtures extends Fixture implements FixtureGroupInterface
 
         do {
             try {
-                $response = $this->client->request('GET', $this->apiUrl . 'episode?page=' . $page);
+                $response = $this->client->request(
+                    'GET', 
+                    $this->apiUrl . '/episode?page=' . $page
+                );
 
                 $data = $response->toArray();
 
@@ -55,7 +79,9 @@ class EpisodeFixtures extends Fixture implements FixtureGroupInterface
                     $manager->flush();
 
                     foreach ($row['characters'] as $url) {
-                        $character = $this->characterRepository->findOneBy(['url' => $url]);
+                        $character = $this->characterRepository->findOneBy([
+                            'url' => $url
+                        ]);
 
                         if ($character) {
                             $episodeCharacter = new EpisodeCharacter();

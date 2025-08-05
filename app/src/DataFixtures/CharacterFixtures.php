@@ -16,19 +16,40 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class CharacterFixtures extends Fixture implements FixtureGroupInterface
 {
 
+    /**
+     * Constructor for character fixture loading.
+     * Initializes required services or helpers for populating character data.
+     *
+     * @param HttpClientInterface $client
+     * @param string $apiUrl
+     * @param LoggerInterface $logger
+     * @param LocationRepository $locationRepository
+     */
     public function __construct(
         private HttpClientInterface $client,
         private string $apiUrl,
         private LoggerInterface $logger,
         private LocationRepository $locationRepository
     ) {
+        $this->apiUrl = rtrim($apiUrl, '/');
     }
     
+    /**
+     * Returns the groups this fixture belongs to.
+     *
+     * @return array
+     */
     public static function getGroups(): array
     {
         return ['group2'];
     }
 
+    /**
+     * Loads character fixture data into the database.
+     *
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         $page = 1;
@@ -36,7 +57,10 @@ class CharacterFixtures extends Fixture implements FixtureGroupInterface
 
         do {
             try {
-                $response = $this->client->request('GET', $this->apiUrl . 'character?page=' . $page);
+                $response = $this->client->request(
+                    'GET', 
+                    $this->apiUrl . '/character?page=' . $page
+                );
 
                 $data = $response->toArray();
 
@@ -56,7 +80,9 @@ class CharacterFixtures extends Fixture implements FixtureGroupInterface
                     $origin = null;
                     $originArr = $row['origin'] ?? null;
                     if ($originArr) {
-                        $origin = $this->locationRepository->findOneBy(['name' => $originArr['name']]);
+                        $origin = $this->locationRepository->findOneBy([
+                            'name' => $originArr['name']
+                        ]);
                     }
 
                     $character = new Character();
@@ -78,7 +104,9 @@ class CharacterFixtures extends Fixture implements FixtureGroupInterface
                     $location = null;
                     $locationArr = $row['location'] ?? null;
                     if ($locationArr) {
-                        $location = $this->locationRepository->findOneBy(['name' => $locationArr['name']]);
+                        $location = $this->locationRepository->findOneBy([
+                            'name' => $locationArr['name']
+                        ]);
                     }
 
                     if ($location) {
