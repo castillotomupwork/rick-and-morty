@@ -71,7 +71,7 @@ export default class extends Controller {
 
             const dimensions = data || [];
 
-            this.dimensionTarget.innerHTML = '<option value="">All</option>';
+            this.dimensionTarget.innerHTML = '<option value="-all-">All</option>';
 
             dimensions.forEach(dimension => {
                 const option = document.createElement('option');
@@ -96,7 +96,7 @@ export default class extends Controller {
 
             const locations = data || [];
 
-            this.locationTarget.innerHTML = '<option value="">All</option>';
+            this.locationTarget.innerHTML = '<option value="-all-">All</option>';
 
             locations.forEach(location => {
                 const option = document.createElement('option');
@@ -121,7 +121,7 @@ export default class extends Controller {
 
             const episodes = data || [];
 
-            this.episodeTarget.innerHTML = '<option value="">All</option>';
+            this.episodeTarget.innerHTML = '<option value="-all-">All</option>';
 
             episodes.forEach(episode => {
                 const option = document.createElement('option');

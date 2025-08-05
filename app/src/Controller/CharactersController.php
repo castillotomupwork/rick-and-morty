@@ -76,6 +76,12 @@ final class CharactersController extends AbstractController
             $param = $request->query->all();
         }
 
+        foreach ($param as $key => $val) {
+            if ($val == '-all-') {
+                unset($param[$key]);
+            }
+        }
+
         $page = $param['page'];
 
         $data = $this->dataService->characters($param);

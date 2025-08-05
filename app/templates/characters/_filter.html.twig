@@ -24,7 +24,7 @@
                     data-filter-target="dimension"
                     class="w-full border border-gray-300 p-2 rounded shadow-md"
                 >
-                    <option value="">All</option>
+                    <option value="-all-">All</option>
                 </select>
             </div>
 
@@ -35,7 +35,7 @@
                     data-filter-target="location"
                     class="w-full border border-gray-300 p-2 rounded shadow-md"
                 >
-                    <option value="">All</option>
+                    <option value="-all-">All</option>
                 </select>
             </div>
 
@@ -46,7 +46,7 @@
                     data-filter-target="episode"
                     class="w-full border border-gray-300 p-2 rounded shadow-md"
                 >
-                    <option value="">All</option>
+                    <option value="-all-">All</option>
                 </select>
             </div>
 
@@ -56,7 +56,7 @@
                     name="status" 
                     class="w-full border border-gray-300 p-2 rounded shadow-md"
                 >
-                    <option value="">All</option>
+                    <option value="-all-">All</option>
                     {% for status in statuses %}
                         <option value="{{ status.value }}" {% if app.request.get('status') == status.value %}selected{% endif %}>
                             {{ status.label() }}
@@ -81,7 +81,7 @@
                     name="gender" 
                     class="w-full border border-gray-300 p-2 rounded shadow-md"
                 >
-                    <option value="">All</option>
+                    <option value="-all-">All</option>
                     {% for gender in genders %}
                         <option value="{{ gender.value }}" {% if app.request.get('gender') == gender.value %}selected{% endif %}>
                             {{ gender.label() }}
