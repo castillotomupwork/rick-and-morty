@@ -40,7 +40,7 @@ class ApiDataProvider implements DataProviderInterface
         $limit = 20;
 
         $allowedFilters = [
-            'dimension' => null,
+            'dimension' => 'allow-empty',
             'location' => null,
             'episode' => null,
             'status' => array_map(fn($s) => $s->value, Status::cases()),
@@ -53,7 +53,7 @@ class ApiDataProvider implements DataProviderInterface
         foreach ($allowedFilters as $field => $options) {
             $value = $params[$field] ?? null;
 
-            if ($value !== null && $value !== '') {
+            if ($value !== null && ($value !== '' || ($options == 'allow-empty' && $value === ''))) {
                 $value = strtolower($value);
                 if (is_array($options)) {
                     if (in_array($value, $options, true)) {
