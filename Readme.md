@@ -104,10 +104,10 @@ php bin/console doctrine:fixtures:load --group=group3 --append
 ### 10. Populate data to cache file
 If you switch to API mode, you may need to run these commands or go straight to the website after installation complete.
 ```bash
-bin/console app:cache:characters
-bin/console app:cache:dimensions
-bin/console app:cache:locations
-bin/console app:cache:episodes
+php bin/console app:cache:characters
+php bin/console app:cache:dimensions
+php bin/console app:cache:locations
+php bin/console app:cache:episodes
 ```
 
 ---
