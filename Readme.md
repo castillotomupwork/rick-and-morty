@@ -7,7 +7,7 @@ A simple Dockerized Symfony + Stimulus + Tailwind CSS application for retrieval 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Symfony Setup](#symfony-setup)
-- [Database or API mode](#database-or-api-mmode)
+- [Database or API mode](#database-or-api-mode)
 - [Build Frontend Assets](#build-frontend-assets)
 - [Access the Application](#access-the-application)
 
