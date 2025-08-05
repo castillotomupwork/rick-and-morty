@@ -83,13 +83,13 @@ If you are going to use Database, skip the next step and jump to 10.
 ### 7. Create Database
 
 ```bash
-bin/console doctrine:database:create
+php bin/console doctrine:database:create
 ```
 
 ### 8. Run Database Migrations
 
 ```bash
-bin/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate
 ```
 
 ### 9. Load Data Fixtures
