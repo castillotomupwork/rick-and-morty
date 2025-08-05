@@ -67,6 +67,7 @@ cd /var/www/html/app
 
 ```bash
 composer install
+composer require doctrine/doctrine-fixtures-bundle --dev
 ```
 
 ---
@@ -75,7 +76,7 @@ composer install
 ### 6. Setup Database or API caching
 Edit environment file
 ```bash
-vi .env.prod
+vi .env.dev
 ```
 Change DATA_PROVIDER_TYPE to either db (for Database) or api (for API)
 If you are going to use Database, skip the next step and jump to 10.

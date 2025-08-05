@@ -52,9 +52,9 @@ class DatabaseDataProvider implements DataProviderInterface
 
         try {
             $data = $this->characterRepository->findByFilters(
-                $dimension,
-                $location,
-                $episode,
+                (int) $dimension,
+                (int) $location,
+                (int) $episode,
                 $status,
                 $species,
                 $gender,

@@ -43,9 +43,9 @@ class CharacterRepository extends ServiceEntityRepository
         int|null $dimensionId,
         int|null $locationId,
         int|null $episodeId,
-        int|null $status,
-        int|null $species,
-        int|null $gender,
+        string|null $status,
+        string|null $species,
+        string|null $gender,
         int $limit = 10,
         int $offset = 0
     ): array {

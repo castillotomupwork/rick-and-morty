@@ -37,7 +37,7 @@ final class CharactersController extends AbstractController
         return $this->render('characters/index.html.twig', [
             'statuses' => Status::cases(),
             'genders' => Gender::cases(),
-            'data_provider_type' => $parameterBag->get('data_provider_type'),
+            'data_provider_type' => $parameterBag->get('data_provider_type')
         ]);
     }
 
@@ -53,7 +53,7 @@ final class CharactersController extends AbstractController
     public function getCharacters(
         Request $request, 
         ParseHelper $parseHelper,
-        ParameterBagInterface $parameterBag,
+        ParameterBagInterface $parameterBag
     ): JsonResponse {
         $pagination = [
             'prev' => 0, 
