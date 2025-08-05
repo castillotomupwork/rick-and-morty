@@ -45,7 +45,7 @@ class ApiDataProvider implements DataProviderInterface
             'episode' => null,
             'status' => array_map(fn($s) => $s->value, Status::cases()),
             'species' => null,
-            'gender' => array_map(fn($g) => $g->value, Gender::cases()),
+            'gender' => array_map(fn($g) => $g->value, Gender::cases())
         ];
 
         $filters = [];
@@ -107,7 +107,7 @@ class ApiDataProvider implements DataProviderInterface
             'characters' => $characters,
             'page' => $page,
             'pageTotal' => $pageTotal,
-            'error' => null,
+            'error' => null
         ];
     }
 
@@ -179,7 +179,7 @@ class ApiDataProvider implements DataProviderInterface
                             'origin' => $row['origin']['name'],
                             'dimension' => $dimension,
                             'location' => $row['location']['name'],
-                            'episode' => $episode,
+                            'episode' => $episode
                         ];
                     }, $data['results']);
 
@@ -251,7 +251,7 @@ class ApiDataProvider implements DataProviderInterface
                 foreach ($dataArray as $value) {
                     $dimensions[] = [
                         'id' => $value,
-                        'name' => $value,
+                        'name' => $value
                     ];
                 }
 
@@ -317,7 +317,7 @@ class ApiDataProvider implements DataProviderInterface
                 foreach ($dataArray as $value) {
                     $locations[] = [
                         'id' => $value,
-                        'name' => $value,
+                        'name' => $value
                     ];
                 }
 
@@ -383,7 +383,7 @@ class ApiDataProvider implements DataProviderInterface
                 foreach ($dataArray as $value) {
                     $episodes[] = [
                         'id' => $value,
-                        'name' => $value,
+                        'name' => $value
                     ];
                 }
 

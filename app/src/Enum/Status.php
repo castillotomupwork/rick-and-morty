@@ -18,7 +18,7 @@ enum Status: string
         return match($this) {
             self::ALIVE => 'Alive',
             self::DEAD => 'Dead',
-            self::UNKNOWN => 'Unknown',
+            self::UNKNOWN => 'Unknown'
         };
     }
 

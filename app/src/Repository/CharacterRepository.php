@@ -103,7 +103,7 @@ class CharacterRepository extends ServiceEntityRepository
 
         return [
             'characters' => $characters,
-            'total' => $total,
+            'total' => $total
         ];
     }
 

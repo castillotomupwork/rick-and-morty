@@ -114,7 +114,7 @@ class DatabaseDataProvider implements DataProviderInterface
                     'origin' => $originName,
                     'dimension' => $dimensionName,
                     'location' => $locationName,
-                    'episode' => $episodeName,
+                    'episode' => $episodeName
                 ];
             }, $characters);
 
@@ -122,7 +122,7 @@ class DatabaseDataProvider implements DataProviderInterface
                 'characters' => $charactersArray,
                 'page' => $page,
                 'pageTotal' => $pageTotal,
-                'error' => null,
+                'error' => null
             ];
 
         } catch (\Exception $e) {
@@ -133,7 +133,7 @@ class DatabaseDataProvider implements DataProviderInterface
                 'characters' => [],
                 'page' => $page,
                 'pageTotal' => 0,
-                'error' => 'No characters found.',
+                'error' => 'No characters found.'
             ];
         }
     }
@@ -151,7 +151,7 @@ class DatabaseDataProvider implements DataProviderInterface
             return array_map(function (Dimension $dimension) {
                 return [
                     'id' => $dimension->getId(),
-                    'name' => $dimension->getName(),
+                    'name' => $dimension->getName()
                 ];
             }, $dimensions);
 
@@ -175,7 +175,7 @@ class DatabaseDataProvider implements DataProviderInterface
             return array_map(function (Location $location) {
                 return [
                     'id' => $location->getId(),
-                    'name' => $location->getName(),
+                    'name' => $location->getName()
                 ];
             }, $locations);
 
@@ -199,7 +199,7 @@ class DatabaseDataProvider implements DataProviderInterface
             return array_map(function (Episode $episode) {
                 return [
                     'id' => $episode->getId(),
-                    'name' => $episode->getName(),
+                    'name' => $episode->getName()
                 ];
             }, $episodes);
 

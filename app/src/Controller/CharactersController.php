@@ -106,13 +106,13 @@ final class CharactersController extends AbstractController
         if ($error) {
             return $this->json([
                 'error' => $error,
-                'pagination' => $pagination,
+                'pagination' => $pagination
             ]);
         }
 
         return $this->json([
             'characters' => $characters,
-            'pagination' => $pagination,
+            'pagination' => $pagination
         ]);
     }
 }

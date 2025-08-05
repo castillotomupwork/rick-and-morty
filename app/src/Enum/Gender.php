@@ -20,7 +20,7 @@ enum Gender: string
             self::FEMALE => 'Female',
             self::MALE => 'Male',
             self::GENDERLESS => 'Genderless',
-            self::UNKNOWN => 'Unknown',
+            self::UNKNOWN => 'Unknown'
         };
     }
 
