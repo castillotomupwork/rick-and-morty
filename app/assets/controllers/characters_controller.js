@@ -9,7 +9,7 @@ export default class extends Controller {
         'prevButton',
         'nextButton',
         'firstButton',
-        'lastButton',
+        'lastButton'
     ];
 
     static values = {
@@ -19,8 +19,8 @@ export default class extends Controller {
             prev: { type: Number, default: 0 },
             next: { type: Number, default: 0 },
             first: { type: Number, default: 0 },
-            last: { type: Number, default: 0 },
-        },
+            last: { type: Number, default: 0 }
+        }
     };
 
     connect() {
@@ -100,7 +100,7 @@ export default class extends Controller {
                 prev: data?.pagination?.prev,
                 next: data?.pagination?.next,
                 first: data?.pagination?.first,
-                last: data?.pagination?.last,
+                last: data?.pagination?.last
             };
         } catch (error) {
             this.showMessage('Failed to load data.', 'error');
@@ -164,7 +164,7 @@ export default class extends Controller {
             info: 'bg-blue-100',
             success: 'bg-green-100',
             error: 'bg-red-100',
-            warning: 'bg-yellow-100',
+            warning: 'bg-yellow-100'
         };
         
         this.messageTarget.className = `${baseClasses} ${types[type] || types.info}`;

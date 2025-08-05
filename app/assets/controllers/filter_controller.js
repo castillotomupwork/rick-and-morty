@@ -8,13 +8,13 @@ export default class extends Controller {
         'location',
         'episode',
         'container',
-        'button',
+        'button'
     ];
 
     static values = {
         dimensionsEndpoint: String,
         locationsEndpoint: String,
-        episodesEndpoint: String,
+        episodesEndpoint: String
     };
 
     connect() {
@@ -143,7 +143,7 @@ export default class extends Controller {
             info: 'bg-blue-100',
             success: 'bg-green-100',
             error: 'bg-red-100',
-            warning: 'bg-yellow-100',
+            warning: 'bg-yellow-100'
         };
         
         this.messageTarget.className = `${baseClasses} ${types[type] || types.info}`;
