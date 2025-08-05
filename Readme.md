@@ -6,8 +6,8 @@ A simple Dockerized Symfony + Stimulus + Tailwind CSS application for retrieval 
 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Database Setup](#database-setup)
 - [Symfony Setup](#symfony-setup)
+- [Database or API mode](#database-or-api-mmode)
 - [Build Frontend Assets](#build-frontend-assets)
 - [Access the Application](#access-the-application)
 
@@ -69,7 +69,10 @@ cd /var/www/html/app
 composer install
 ```
 
-### 6. Set to Database or API mode
+---
+## Database or API mode
+
+### 6. Setup Database or API caching
 Edit environment file
 ```bash
 vi .env.prod
